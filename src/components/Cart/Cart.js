@@ -7,6 +7,8 @@ import CartContext from "../../store/cart-context";
 function Cart(props) {
   const cartCtx = useContext(CartContext);
 
+  const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
+
   const cartItems = (
     <ul className={styles["cart-items"]}>
       {cartCtx.items.map((current) => (
@@ -20,7 +22,7 @@ function Cart(props) {
       {cartItems}
       <div className={styles.total}>
         <span>Total Amount</span>
-        <span>35.62</span>
+        <span>{totalAmount}</span>
       </div>
       <div className={styles.actions}>
         <button
