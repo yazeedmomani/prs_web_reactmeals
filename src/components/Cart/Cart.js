@@ -39,7 +39,7 @@ function Cart(props) {
       {cartItems}
       <div className={styles.total}>
         <span>Total Amount</span>
-        <span>{totalAmount}</span>
+        <span>{cartCtx.totalAmount > 0 ? totalAmount : "$0.00"}</span>
       </div>
       <div className={styles.actions}>
         <button
