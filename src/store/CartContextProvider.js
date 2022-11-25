@@ -38,7 +38,7 @@ const cartReducer = function (state, action) {
     let updatedItems = [...state.items];
 
     if (item.amount === 1) {
-      updatedItems.pop(item);
+      updatedItems = updatedItems.filter((cur) => cur.id !== item.id);
     } else {
       const updatedItem = {
         ...item,
