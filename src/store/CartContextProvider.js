@@ -35,12 +35,18 @@ const cartReducer = function (state, action) {
   if (action.type === "REMOVE") {
     const itemIndex = state.items.findIndex((cur) => cur.id === action.id);
     const item = state.items[itemIndex];
-    const updatedItem = {
-      ...item,
-      amount: --item.amount,
-    };
-    const updatedItems = [...state.items];
-    updatedItems[itemIndex] = updatedItem;
+    let updatedItems = [...state.items];
+
+    if (item.amount === 1) {
+      updatedItems.pop(item);
+    } else {
+      const updatedItem = {
+        ...item,
+        amount: --item.amount,
+      };
+      updatedItems[itemIndex] = updatedItem;
+    }
+
     const updatedTotalAmount = state.totalAmount - item.price;
     return { items: updatedItems, totalAmount: updatedTotalAmount };
   }
