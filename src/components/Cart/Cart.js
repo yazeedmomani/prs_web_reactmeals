@@ -8,6 +8,7 @@ function Cart(props) {
   const cartCtx = useContext(CartContext);
 
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
+  const hasItems = cartCtx.items.length > 0 && "true";
 
   const cartItems = (
     <ul className={styles["cart-items"]}>
@@ -30,7 +31,7 @@ function Cart(props) {
           onClick={props.onCloseClick}>
           Close
         </button>
-        <button className={styles.button}>Order</button>
+        {hasItems && <button className={styles.button}>Order</button>}
       </div>
     </Modal>
   );
