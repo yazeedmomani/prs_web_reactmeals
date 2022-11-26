@@ -8,6 +8,7 @@
 }
 
 .control {
+  margin-left: 2px;
   margin-bottom: 0.5rem;
 }
 
@@ -25,6 +26,10 @@
   max-width: 100%;
 }
 
+.control input:focus {
+  outline: 2px solid #5a1a01;
+}
+
 .actions {
   display: flex;
   justify-content: flex-end;
@@ -32,30 +37,24 @@
 }
 
 .actions button {
-    font: inherit;
-    cursor: pointer;
-    background-color: transparent;
-    border: 1px solid #8a2b06;
-    padding: 0.5rem 2rem;
-    border-radius: 25px;
+  font: inherit;
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid #8a2b06;
+  padding: 0.5rem 2rem;
+  border-radius: 25px;
 }
 
 .actions button:hover,
 .actions button:active {
-    background-color: #5a1a01;
-    border-color: #5a1a01;
-    color: white;
-}
-
-.actions .submit {
-  border: 1px solid #5a1a01;
   background-color: #5a1a01;
+  border-color: #5a1a01;
   color: white;
 }
 
-.actions .submit:hover,
-.actions .submit:active {
-  background-color: #7a2706;
+.actions .submit {
+  background-color: #8a2b06;
+  color: white;
 }
 
 .invalid label {
