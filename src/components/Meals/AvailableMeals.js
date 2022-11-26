@@ -27,6 +27,7 @@ function AvailableMeals(props) {
         // Gaurd Clause
         if (!data) {
           setMealsList(<p style={{ textAlign: "center" }}>No data found.</p>);
+          setIsLoading(false);
           return;
         }
 
@@ -57,6 +58,7 @@ function AvailableMeals(props) {
       } catch (err) {
         console.error(err);
         setMealsList(<p style={{ textAlign: "center" }}>{err.message}</p>);
+        setIsLoading(false);
       }
     };
 
