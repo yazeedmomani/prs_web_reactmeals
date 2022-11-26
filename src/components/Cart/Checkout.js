@@ -1,8 +1,16 @@
 import styles from "./Checkout.module.css";
+import { useRef } from "react";
 
 const Checkout = (props) => {
+  const nameRef = useRef();
+  const streetRef = useRef();
+  const postalRef = useRef();
+  const cityRef = useRef();
+
   const confirmHandler = (event) => {
     event.preventDefault();
+
+    console.log(nameRef.current.value);
   };
 
   return (
@@ -13,6 +21,7 @@ const Checkout = (props) => {
         <div className={styles.control}>
           <label htmlFor="name">Your Name</label>
           <input
+            ref={nameRef}
             type="text"
             id="name"
           />
@@ -20,6 +29,7 @@ const Checkout = (props) => {
         <div className={styles.control}>
           <label htmlFor="street">Street</label>
           <input
+            ref={streetRef}
             type="text"
             id="street"
           />
@@ -29,6 +39,7 @@ const Checkout = (props) => {
         <div className={styles.control}>
           <label htmlFor="postal">Postal Code</label>
           <input
+            ref={postalRef}
             type="text"
             id="postal"
           />
@@ -36,6 +47,7 @@ const Checkout = (props) => {
         <div className={styles.control}>
           <label htmlFor="city">City</label>
           <input
+            ref={cityRef}
             type="text"
             id="city"
           />
