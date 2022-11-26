@@ -25,6 +25,10 @@ function Cart(props) {
     setOrderClicked(true);
   };
 
+  const cancelHandler = function () {
+    setOrderClicked(false);
+  };
+
   const cartItems = (
     <ul className={styles["cart-items"]}>
       {cartCtx.items.map((current) => (
@@ -42,7 +46,7 @@ function Cart(props) {
 
   return (
     <Modal onClick={props.onCloseClick}>
-      {orderClicked && <Checkout onCancel={props.onCloseClick} />}
+      {orderClicked && <Checkout onCancel={cancelHandler} />}
       {orderClicked || (
         <Fragment>
           {cartItems}
