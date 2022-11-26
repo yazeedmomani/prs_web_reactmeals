@@ -1,12 +1,14 @@
 import styles from "./Cart.module.css";
 
-import { useContext } from "react";
+import { useContext, useState, Fragment } from "react";
 import Modal from "../UI/Modal";
 import CartContext from "../../store/cart-context";
 import CartItem from "./CartItem";
+import Checkout from "./Checkout";
 
 function Cart(props) {
   const cartCtx = useContext(CartContext);
+  const [orderClicked, setOrderClicked] = useState(false);
 
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
   const hasItems = cartCtx.items.length > 0 && "true";
@@ -17,6 +19,10 @@ function Cart(props) {
 
   const cartItemRemoveHandler = function (id) {
     cartCtx.removeItem(id);
+  };
+
+  const orderHandler = function () {
+    setOrderClicked(true);
   };
 
   const cartItems = (
@@ -36,19 +42,30 @@ function Cart(props) {
 
   return (
     <Modal onClick={props.onCloseClick}>
-      {cartItems}
-      <div className={styles.total}>
-        <span>Total Amount</span>
-        <span>{cartCtx.totalAmount > 0 ? totalAmount : "$0.00"}</span>
-      </div>
-      <div className={styles.actions}>
-        <button
-          className={styles["button--alt"]}
-          onClick={props.onCloseClick}>
-          Close
-        </button>
-        {hasItems && <button className={styles.button}>Order</button>}
-      </div>
+      {orderClicked && <Checkout onCancel={props.onCloseClick} />}
+      {orderClicked || (
+        <Fragment>
+          {cartItems}
+          <div className={styles.total}>
+            <span>Total Amount</span>
+            <span>{cartCtx.totalAmount > 0 ? totalAmount : "$0.00"}</span>
+          </div>
+          <div className={styles.actions}>
+            <button
+              className={styles["button--alt"]}
+              onClick={props.onCloseClick}>
+              Close
+            </button>
+            {hasItems && (
+              <button
+                className={styles.button}
+                onClick={orderHandler}>
+                Order
+              </button>
+            )}
+          </div>
+        </Fragment>
+      )}
     </Modal>
   );
 }
