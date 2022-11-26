@@ -1,4 +1,5 @@
 import Card from "../UI/Card";
+import Spinner from "../UI/Spinner";
 import MealItem from "./MealItem/MealItem";
 import { useEffect, useState } from "react";
 import styles from "./AvailableMeals.module.css";
@@ -65,13 +66,7 @@ function AvailableMeals(props) {
   return (
     <section className={styles.meals}>
       <Card>
-        <ul>
-          {isLoading ? (
-            <p style={{ textAlign: "center" }}>Loading...</p>
-          ) : (
-            mealsList
-          )}
-        </ul>
+        <ul>{isLoading ? <Spinner /> : mealsList}</ul>
       </Card>
     </section>
   );

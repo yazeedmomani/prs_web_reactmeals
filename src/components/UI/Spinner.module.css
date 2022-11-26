@@ -1,0 +1,17 @@
+.spinner {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: dashed 4px #8a2b06;
+  margin: 0 auto;
+  animation: rotate 3000ms infinite linear;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
