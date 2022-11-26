@@ -10,6 +10,10 @@ const Checkout = (props) => {
   const confirmHandler = (event) => {
     event.preventDefault();
 
+    // TODO
+    // 1. Show invalid message on submit
+    // 2. Show invalid message on blur
+    // 3. Remove invalid message on keystroke
     console.log(nameRef.current.value);
   };
 
