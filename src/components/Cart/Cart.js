@@ -50,12 +50,13 @@ function Cart(props) {
         throw new Error(`Something went wrong (${response.status})`);
       }
 
-      console.log(response);
       setConfirmMessage(
         <span style={{ color: "#0baa20" }}>
           Order successful! Thank you for you purchase.
         </span>
       );
+
+      cartCtx.resetCart();
       setPostConfirm(true);
     } catch (err) {
       console.error(err);
