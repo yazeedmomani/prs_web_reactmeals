@@ -1,8 +1,9 @@
 import styles from "./Checkout.module.css";
-import { useRef, useReducer } from "react";
+import { useRef, useReducer, useState } from "react";
+import { getByDisplayValue } from "@testing-library/react";
 
-const isEmpty = (ref) => ref.current.value.trim().length === 0;
-const isShort = (ref) => ref.current.value.trim().length < 5;
+const isEmpty = (item) => item.value.trim().length === 0;
+const isShort = (item) => item.value.trim().length < 5;
 const isValidInitials = {
   name: true,
   street: true,
@@ -18,36 +19,64 @@ const isValidReducer = function (state, action) {
       city: action.city,
     };
   }
+
+  if (action.type === "BLUR") {
+    let updated = state;
+    for (const [key, val] of Object.entries(action)) {
+      if (key === "type") continue;
+      updated[key] = val;
+    }
+    console.log(updated);
+    return updated;
+  }
+
   return isValidInitials;
 };
 
 const Checkout = (props) => {
+  // Changing it's state makes react rerender this component
+  const [render, setRender] = useState(false);
   const [isValid, dispatch] = useReducer(isValidReducer, isValidInitials);
   const nameRef = useRef();
   const streetRef = useRef();
   const postalRef = useRef();
   const cityRef = useRef();
 
+  // Validate on submit
   const confirmHandler = (event) => {
     event.preventDefault();
 
     const isFormValid =
-      !isEmpty(nameRef) &&
-      !isEmpty(streetRef) &&
-      !isShort(postalRef) &&
-      !isEmpty(cityRef);
+      !isEmpty(nameRef.current) &&
+      !isEmpty(streetRef.current) &&
+      !isShort(postalRef.current) &&
+      !isEmpty(cityRef.current);
 
     if (!isFormValid) {
       dispatch({
         type: "CONFIRM",
-        name: !isEmpty(nameRef),
-        street: !isEmpty(streetRef),
-        postal: !isShort(postalRef),
-        city: !isEmpty(cityRef),
+        name: !isEmpty(nameRef.current),
+        street: !isEmpty(streetRef.current),
+        postal: !isShort(postalRef.current),
+        city: !isEmpty(cityRef.current),
       });
       return;
     }
   };
+
+  //Validate on blur
+  const blurHandler = function (e) {
+    dispatch({
+      type: "BLUR",
+      [e.target.id]:
+        e.target.id === "postal" ? !isShort(e.target) : !isEmpty(e.target),
+    });
+
+    setRender((prev) => !prev);
+    return;
+  };
+
+  console.log(isValid.name || "invalid");
 
   return (
     <form
@@ -61,6 +90,7 @@ const Checkout = (props) => {
             type="text"
             id="name"
             placeholder={isValid.name ? "John" : "Please enter a valid name"}
+            onBlur={blurHandler}
           />
         </div>
         <div
@@ -73,6 +103,7 @@ const Checkout = (props) => {
             placeholder={
               isValid.street ? "example street" : "Please enter a valid street"
             }
+            onBlur={blurHandler}
           />
         </div>
       </div>
@@ -87,6 +118,7 @@ const Checkout = (props) => {
             placeholder={
               isValid.postal ? "12345" : "Please enter a valid postal code"
             }
+            onBlur={blurHandler}
           />
         </div>
         <div className={`${styles.control} ${isValid.city || styles.invalid}`}>
@@ -96,6 +128,7 @@ const Checkout = (props) => {
             type="text"
             id="city"
             placeholder={isValid.city ? "London" : "Please enter a valid city"}
+            onBlur={blurHandler}
           />
         </div>
       </div>
