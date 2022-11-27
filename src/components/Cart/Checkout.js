@@ -78,6 +78,13 @@ const Checkout = (props) => {
       });
       return;
     }
+
+    props.onConfirm({
+      name: nameRef.current.value,
+      street: streetRef.current.value,
+      postalCode: postalRef.current.value,
+      city: cityRef.current.value,
+    });
   };
 
   // Validate on blur
