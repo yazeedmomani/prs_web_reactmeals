@@ -5,11 +5,13 @@ import Modal from "../UI/Modal";
 import CartContext from "../../store/cart-context";
 import CartItem from "./CartItem";
 import Checkout from "./Checkout";
+import Spinner from "../UI/Spinner";
 
 function Cart(props) {
   const cartCtx = useContext(CartContext);
   const [orderClicked, setOrderClicked] = useState(false);
   const [postConfirm, setPostConfirm] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
   const hasItems = cartCtx.items.length > 0 && "true";
@@ -33,6 +35,8 @@ function Cart(props) {
 
   const confirmHandler = async function (data) {
     try {
+      setIsLoading(true);
+
       const response = await fetch(
         "https://reactmeals-97147-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json",
         {
@@ -58,12 +62,14 @@ function Cart(props) {
 
       cartCtx.resetCart();
       setPostConfirm(true);
+      setIsLoading(false);
     } catch (err) {
       console.error(err);
       setConfirmMessage(
         <span style={{ color: "#ca3e51" }}>{err.message}</span>
       );
       setPostConfirm(true);
+      setIsLoading(false);
     }
   };
   console.log(confirmMessage);
@@ -85,7 +91,8 @@ function Cart(props) {
 
   return (
     <Modal onClick={props.onCloseClick}>
-      {postConfirm && (
+      {isLoading && <Spinner />}
+      {!isLoading && postConfirm && (
         <Fragment>
           <div className={styles.total}>{confirmMessage}</div>
           <div className={styles.actions}>
@@ -97,13 +104,13 @@ function Cart(props) {
           </div>
         </Fragment>
       )}
-      {orderClicked && !postConfirm && (
+      {!isLoading && orderClicked && !postConfirm && (
         <Checkout
           onCancel={cancelHandler}
           onConfirm={confirmHandler}
         />
       )}
-      {orderClicked || postConfirm || (
+      {!isLoading && !orderClicked && !postConfirm && (
         <Fragment>
           {cartItems}
           <div className={styles.total}>
