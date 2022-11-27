@@ -80,8 +80,22 @@ const Checkout = (props) => {
     }
   };
 
-  //Validate on blur
+  // Validate on blur
   const blurHandler = function (e) {
+    dispatch({
+      type: "BLUR",
+      [e.target.id]:
+        e.target.id === "postal" ? !isShort(e.target) : !isEmpty(e.target),
+    });
+
+    setRender((prev) => !prev);
+    return;
+  };
+
+  // Validate on keystroke
+  const changeHandler = function (e) {
+    if (isValid[e.target.id]) return;
+
     dispatch({
       type: "BLUR",
       [e.target.id]:
@@ -105,6 +119,7 @@ const Checkout = (props) => {
             id="name"
             placeholder={isValid.name ? "John" : "Please enter a valid name"}
             onBlur={blurHandler}
+            onChange={changeHandler}
           />
         </div>
         <div
@@ -118,6 +133,7 @@ const Checkout = (props) => {
               isValid.street ? "example street" : "Please enter a valid street"
             }
             onBlur={blurHandler}
+            onChange={changeHandler}
           />
         </div>
       </div>
@@ -133,6 +149,7 @@ const Checkout = (props) => {
               isValid.postal ? "12345" : "Please enter a valid postal code"
             }
             onBlur={blurHandler}
+            onChange={changeHandler}
           />
         </div>
         <div className={`${styles.control} ${isValid.city || styles.invalid}`}>
@@ -143,6 +160,7 @@ const Checkout = (props) => {
             id="city"
             placeholder={isValid.city ? "London" : "Please enter a valid city"}
             onBlur={blurHandler}
+            onChange={changeHandler}
           />
         </div>
       </div>
