@@ -72,7 +72,6 @@ function Cart(props) {
       setIsLoading(false);
     }
   };
-  console.log(confirmMessage);
 
   const cartItems = (
     <ul className={styles["cart-items"]}>
