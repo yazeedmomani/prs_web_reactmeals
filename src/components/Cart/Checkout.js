@@ -150,7 +150,7 @@ const Checkout = (props) => {
           <label htmlFor="postal">Postal Code</label>
           <input
             ref={postalRef}
-            type="text"
+            type="number"
             id="postal"
             placeholder={
               isValid.postal ? "12345" : "Please enter a valid postal code"
